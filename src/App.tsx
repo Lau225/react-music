@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Link, Outlet } from "react-router-dom";
 
 
@@ -12,7 +13,9 @@ function App() {
           <Link to='/download'>下载客户端</Link>
           <Link to='/mine'>我的音乐</Link>
         </div>
-        <Outlet/>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Outlet/>
+        </Suspense>
       </div>
     </>
   )
