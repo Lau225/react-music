@@ -1,12 +1,17 @@
 {
   "compilerOptions": {
-    "allowImportingTsExtensions": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
       "@/*": [
         "src/*"
       ]
-    }
+    },
   },
+  "rules": {
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-use-explicit-any": "off"
+  }
 }

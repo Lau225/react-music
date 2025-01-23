@@ -1,35 +1,19 @@
-import { useState } from 'react'
-import reactLogo from '@/assets/react.svg'
-import viteLogo from '/vite.svg'
-import '@/App.css'
+import { Link, Outlet } from "react-router-dom";
+
 
 function App() {
-  const [count, setCount] = useState(0)
-  const add = () => {
-      setCount(count + 1)
-  }
+
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <div className="header">
+          <Link to='/discover'>发现音乐</Link>
+          <Link to='/focus'>关注</Link>
+          <Link to='/download'>下载客户端</Link>
+          <Link to='/mine'>我的音乐</Link>
+        </div>
+        <Outlet/>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={add}>
-          t is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
