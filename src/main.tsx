@@ -5,8 +5,9 @@ import { Provider } from "react-redux";
 import "@/css/index.less";
 import routes from "./router";
 import store from "./store";
+import "./index.css";
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-    <RouterProvider router={routes} />
+    <RouterProvider routes={routes} />
   </Provider>
 );

@@ -7,7 +7,11 @@ const counterSlice = createSlice({
         name: '还好',
         message: '你好'
     },
-    reducers: {}
+    reducers: {
+        changeMessage(state, { payload }) {
+            state.message = payload
+        }
+    }
 })
-
+export const { changeMessage } = counterSlice.actions
 export default counterSlice.reducer
