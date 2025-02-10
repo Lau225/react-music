@@ -9,7 +9,10 @@ const footer: FC<IProps> = () => {
   const { Footer } = Layout;
   return (
     <Footer style={{ textAlign: "center" }}>
-      Ant Design ©{new Date().getFullYear()} Created by Ant UED
+      <span style={{ color: "#666666", fontSize: "12px" }}>
+        网易公司版权所有©1997-2025杭州乐读科技有限公司运营：浙网文[2024]
+        0900-042号 浙公网安备 33010802013307号 算法服务公示信息
+      </span>
     </Footer>
   );
 };

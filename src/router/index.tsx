@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { lazy } from "react";
 import App from "@/App";
+import React from "react";
 const Discover = lazy(() => import("@/views/discover"));
 const Download = lazy(() => import("@/views/download"));
 const Mine = lazy(() => import("@/views/mine"));

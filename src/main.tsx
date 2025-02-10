@@ -6,8 +6,9 @@ import "@/css/index.less";
 import routes from "./router";
 import store from "./store";
 import "./index.css";
+import React from "react";
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-    <RouterProvider routes={routes} />
+    <RouterProvider router={routes} />
   </Provider>
 );
