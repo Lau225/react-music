@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import AppHeader from "./components/app-header";
-import { Layout } from "antd";
+import {FloatButton, Layout } from "antd";
 import React from "react";
 function App() {
   const { Content, Footer } = Layout;
@@ -12,6 +12,7 @@ function App() {
         <Content style={{ backgroundColor: "#ffffff" }}>
           <Suspense fallback={<div>Loading...</div>}>
             <Outlet />
+            <FloatButton.BackTop visibilityHeight={0} />
           </Suspense>
         </Content>
         <Footer style={{ textAlign: "center" }}>

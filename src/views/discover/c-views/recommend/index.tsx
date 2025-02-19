@@ -1,10 +1,14 @@
 import React, { memo, useEffect, useState } from "react";
 import type { FC, ReactNode } from "react";
-import { Carousel, ConfigProvider, Image } from "antd";
+import {Card, Carousel, Col, ConfigProvider, Image, Row } from "antd";
 import { useAppDispatch } from "@/store";
 import {fetchBannerDataAction} from "./store/recommend";
 import {useAppSelector} from "@/store";
+import HotRecommend from "./components/hot-recommend";
 import "./index.less";
+import NewAlbum from "./components/new-album";
+import LoginCard from "./components/login-card";
+import List from "./components/list";
 interface IProps {
   children?: ReactNode;
 }
@@ -15,7 +19,7 @@ const Index: FC<IProps> = () => {
   }))
   useEffect(() => {
     dispatch(fetchBannerDataAction())
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
     if (banners.length > 0){
       setBackgroundImage(banners[0].imageUrl  + "?imageView&blur=40x20")
@@ -26,41 +30,59 @@ const Index: FC<IProps> = () => {
     setBackgroundImage(banners[to].imageUrl  + "?imageView&blur=40x20")
   }
   return (
-      <div className="recommend-container" style={{backgroundImage: `url(${backgroundImage})`,}}>
-        <div style={{width: "1000px", margin: "0 auto", position: "relative"}}>
-          <ConfigProvider
-              theme={{
-                components: {
-                  Carousel: {
-                    arrowSize: 40,
-                    arrowOffset: -80
+      <div>
+        <div className="recommend-container" style={{backgroundImage: `url(${backgroundImage})`,}}>
+          <div style={{width: "1000px", margin: "0 auto", position: "relative"}}>
+            <ConfigProvider
+                theme={{
+                  components: {
+                    Carousel: {
+                      arrowSize: 40,
+                      arrowOffset: -80
+                    },
                   },
-                },
-              }}
-          >
-            <Carousel effect="fade" arrows dots={false} autoplay style={{width: "100%"}} beforeChange={change}>
-              {banners.map((item) => {
-                return (
-                    <Image
-                        width="730px"
-                        style={{minWidth: "900px"}}
-                        height="284px"
-                        src={item.imageUrl}
-                        preview={false}
-                        key={item.imageUrl}
-                    />
-                );
-              })}
-            </Carousel>
-          </ConfigProvider>
-          <div style={{position: "absolute", top: "0", left: "73%", height: "284px", overflow: "hidden"}}>
-            <Image
-                src="https://s2.music.126.net/style/web2/img/index/download.png?48a5da610a027ac0e54f16b1aa848ec3"
-                preview={false}
-                width="250px"
-                height="353px"
-            />
+                }}
+            >
+              <Carousel effect="fade" arrows dots={false} autoplay style={{width: "100%"}} beforeChange={change}>
+                {banners.map((item) => {
+                  return (
+                      <Image
+                          width="730px"
+                          style={{minWidth: "900px"}}
+                          height="284px"
+                          src={item.imageUrl}
+                          preview={false}
+                          key={item.imageUrl}
+                      />
+                  );
+                })}
+              </Carousel>
+            </ConfigProvider>
+            <div style={{position: "absolute", top: "0", left: "73%", height: "284px", overflow: "hidden"}}>
+              <Image
+                  src="https://s2.music.126.net/style/web2/img/index/download.png?48a5da610a027ac0e54f16b1aa848ec3"
+                  preview={false}
+                  width="250px"
+                  height="353px"
+              />
+            </div>
           </div>
+        </div>
+        <div style={{width:"982px",margin:"0 auto"}}>
+          <Row>
+            <Col span={17.5}>
+              <Card style={{marginLeft:"-10px",padding:"20px 20px 40px",width:"733px",borderRadius:"0"}}>
+                <HotRecommend/>
+                <NewAlbum/>
+                <List/>
+              </Card>
+            </Col>
+            <Col span={6.5}>
+              <Card style={{borderRadius:"0",width:"249px"}}>
+                <LoginCard/>
+              </Card>
+            </Col>
+          </Row>
         </div>
       </div>
   );

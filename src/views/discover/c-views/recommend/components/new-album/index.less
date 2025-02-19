@@ -1,0 +1,39 @@
+.new-album{
+  height: 186px;
+  padding-left: 16px;
+  background: rgba(245,245,245);
+  .new-album-list{
+    width:100%;
+    display:flex;
+    justify-content: space-around;
+    height:100%;
+    margin-top: 5%;
+    .new-album-item {
+      background-image: url("https://s2.music.126.net/style/web2/img/coverall.png?640e2d0a8c89827dc37b4e52d168f2c8");
+      width:118px;
+      height:100px;
+      background-position:0 -570px;
+    }
+    a{
+      color: #333333;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    a:hover{
+      color: #333333;
+    }
+  }
+}
+.new-album-container{
+  .ant-carousel .slick-prev{
+    color:#333333!important;
+    margin-top: -10px;
+    margin-left: 10px;
+  }
+  .ant-carousel .slick-next{
+    color:#333333!important;
+    margin-top: -10px;
+  }
+}
+

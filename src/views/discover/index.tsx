@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import { Suspense } from "react";
 import {Outlet, useLocation, useNavigate } from "react-router-dom";
 import "./index.less";
@@ -8,11 +8,7 @@ const Discover = () => {
   console.log(location);
 
   const navigate = useNavigate();
-  const [selectedKeys, setSelectedKeys] = useState<string[]>([
-    location.pathname == "/discover"
-      ? "/discover/recommend"
-      : location.pathname,
-  ]);
+  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
   const list = [
     {
       key: "/discover/recommend",
@@ -42,11 +38,16 @@ const Discover = () => {
   ];
   const switchTab = (e: any) => {
     setSelectedKeys([e.key]);
-    console.log(e.key);
-
     navigate(e.key);
   };
+    useEffect(() => {
+        if(location.pathname == "/discover"){
+            setSelectedKeys(["/discover/recommend"])
+        }else{
+            setSelectedKeys([location.pathname])
+        }
 
+    }, [location.pathname]);
   return (
     <div
       className="body"

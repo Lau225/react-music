@@ -5,3 +5,26 @@ export function getBanners(){
         url:"/banner"
     })
 }
+
+export function getHotRecommend(limit:number = 30){
+    return hyRequest.get({
+        url:'/personalized',
+        params:{
+            limit:limit
+        }
+    })
+}
+export function getNewAlbums(){
+    return hyRequest.get({
+        url:'/album/newest',
+    })
+}
+
+export function getPlayList(id:number){
+    return hyRequest.get({
+        url:'/playlist/detail',
+        params:{
+            id
+        }
+    })
+}
