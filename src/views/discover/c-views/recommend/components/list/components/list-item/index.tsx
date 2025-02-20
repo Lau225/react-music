@@ -2,12 +2,6 @@ import React from 'react'
 import './index.less'
 import { Image } from 'antd';
 const Index = ({dataList}) => {
-    const mouseEnter = (e) => {
-        console.log("mouseEnter",e)
-    }
-    const mouseLeave = (e) => {
-        console.log("mouseLeave",e)
-    }
     return(
     <div className="list-item">
         <div className="list-item-header">
@@ -32,7 +26,7 @@ const Index = ({dataList}) => {
         {
             dataList?.tracks.slice(0,10).map((item:any,index:number) => {
                 return (
-                    <div className="item-test" onMouseEnter={e => mouseEnter(e)} onMouseLeave={e => mouseLeave(e)}  style={{display: "flex", alignItems: "center"}} key={item.id}>
+                    <div className="item-test"  style={{display: "flex", alignItems: "center"}} key={item.id}>
                         <span className="list-number" style={{color: index + 1 > 3 ? '#333' : '#c10d0c'}}>
                             {index + 1}
                         </span>

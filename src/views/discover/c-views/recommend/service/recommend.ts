@@ -28,3 +28,12 @@ export function getPlayList(id:number){
         }
     })
 }
+
+export function getArtistList(limit:number = 30){
+    return hyRequest.get({
+        url:'/artist/list',
+        params:{
+            limit
+        }
+    })
+}

@@ -1,8 +1,8 @@
 import React, { memo, useEffect, useState } from "react";
 import type { FC, ReactNode } from "react";
-import {Card, Carousel, Col, ConfigProvider, Image, Row } from "antd";
+import {Button, Card, Carousel, Col, ConfigProvider, Divider, Image, Row } from "antd";
 import { useAppDispatch } from "@/store";
-import {fetchBannerDataAction} from "./store/recommend";
+import {fetchArtistAction, fetchBannerDataAction} from "./store/recommend";
 import {useAppSelector} from "@/store";
 import HotRecommend from "./components/hot-recommend";
 import "./index.less";
@@ -14,11 +14,13 @@ interface IProps {
 }
 const Index: FC<IProps> = () => {
   const dispatch = useAppDispatch();
-  const {banners} = useAppSelector((state) => ({
-    banners:state.recommend.banners
+  const {banners,artist} = useAppSelector((state) => ({
+    banners:state.recommend.banners,
+    artist:state.recommend.artist
   }))
   useEffect(() => {
     dispatch(fetchBannerDataAction())
+    dispatch(fetchArtistAction())
   }, [dispatch]);
   useEffect(() => {
     if (banners.length > 0){
@@ -78,8 +80,77 @@ const Index: FC<IProps> = () => {
               </Card>
             </Col>
             <Col span={6.5}>
-              <Card style={{borderRadius:"0",width:"249px"}}>
+              <Card style={{borderRadius:"0",width:"249px",height:"1361.5px"}}>
                 <LoginCard/>
+                <div className="artist-list">
+                  <div style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    borderBottom: "1px solid #ccc",
+                    paddingBottom: "5px"
+                  }}>
+                    <span style={{fontSize: "12px", color: "#333333", fontWeight: "bold"}}>入驻歌手</span>
+                    <a className="more-link">查看全部&gt;</a>
+                  </div>
+                  {artist.map(item => {
+                    return (
+                        <div className="artist-item">
+                          <Image src={item.picUrl + "?param=62y60"}/>
+                          <div className="artist-info">
+                            <div style={{color: "#333333", fontWeight: "bold"}}>{item.name}</div>
+                            <div style={{
+                              width: "119px",
+                              fontSize: "12px",
+                              color: "#666666",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                              wordWrap: "normal",
+                              marginTop: "5px"
+                            }}>
+                              {item.alias.join(',')}
+                            </div>
+                          </div>
+                        </div>
+                    )
+                  })}
+                  <ConfigProvider theme={{
+                        components: {
+                          Button: {
+                            defaultBg: "rgb(210,9,15)",
+                            defaultColor: "#fff",
+                            defaultHoverBg: "rgba(193,9,14,0.8)",
+                            defaultBorderColor: "rgba(193,9,14)",
+                            defaultHoverColor: "#fff",
+                            defaultHoverBorderColor: "rgba(193,9,14)",
+                            defaultActiveBg: "rgba(193,9,14,0.8)",
+                            defaultActiveColor: "#fff",
+                            defaultActiveBorderColor: "rgba(193,9,14)",
+                          },
+                        },
+                      }}>
+                    <Button style={{
+                      height: "31px",
+                      width: "100%",
+                      fontSize: "12px",
+                      marginTop: "13px",
+                      fontWeight: "bold"
+                    }}>
+                      申请成为网易云音乐人
+                    </Button>
+                  </ConfigProvider>
+                  <div style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    borderBottom: "1px solid #ccc",
+                    paddingBottom: "5px",
+                    marginTop: "30px"
+                  }}>
+                    <span style={{fontSize: "12px", color: "#333333", fontWeight: "bold"}}>热门主播</span>
+                  </div>
+                </div>
               </Card>
             </Col>
           </Row>
