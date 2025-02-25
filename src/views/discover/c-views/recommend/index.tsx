@@ -95,7 +95,7 @@ const Index: FC<IProps> = () => {
                   </div>
                   {artist.map(item => {
                     return (
-                        <div className="artist-item">
+                        <div className="artist-item" key={item.id}>
                           <Image src={item.picUrl + "?param=62y60"}/>
                           <div className="artist-info">
                             <div style={{color: "#333333", fontWeight: "bold"}}>{item.name}</div>

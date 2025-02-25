@@ -4,7 +4,7 @@ import './index.less'
 const Index = () => {
     return (
     <div style={{width:'100%'}}>
-        <Image preview={false} src="https://music.163.com/style/web2/img/dis_vip_card.png" style={{ width:"248px",height:"89px",cursor:"pointer" }}/>
+        <Image onClick={() => alert('康老板是傻逼！')} preview={false} src="https://music.163.com/style/web2/img/dis_vip_card.png" style={{ width:"248px",height:"89px",cursor:"pointer" }}/>
         <div className="login-card-content">
             <span style={{fontSize:"12px",color:"#666666"}}>登录网易云音乐，可以享受无限收藏的乐趣，并且无限同步到手机</span>
             <ConfigProvider

@@ -1,11 +1,18 @@
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import AppHeader from "./components/app-header";
 import {FloatButton, Layout } from "antd";
 import React from "react";
 import PlayerBar from "./views/player/player-bar";
+import {useAppDispatch} from "./store";
+import {fetchCurrentSongAction} from "./views/player/store/play";
 function App() {
   const { Content, Footer } = Layout;
+  // 获取某一首歌
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    dispatch(fetchCurrentSongAction(1365898499))
+  }, [dispatch]);
   return (
     <>
       <div>

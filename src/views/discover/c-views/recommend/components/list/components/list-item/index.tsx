@@ -1,7 +1,13 @@
 import React from 'react'
 import './index.less'
 import { Image } from 'antd';
+import {fetchCurrentSongAction} from "@/views/player/store/play";
+import {useAppDispatch} from "@/store";
 const Index = ({dataList}) => {
+    const dispatch = useAppDispatch()
+    const play = (id:number) => {
+        dispatch(fetchCurrentSongAction(id))
+    }
     return(
     <div className="list-item">
         <div className="list-item-header">
@@ -34,7 +40,7 @@ const Index = ({dataList}) => {
                             {item.name}
                         </a>
                         <div className="item-icon-list">
-                            <a className="item-icon-plays">播放</a>
+                            <a className="item-icon-plays" onClick={() => {play(item?.id)}}>播放</a>
                             <a className="item-icon-like">收藏</a>
                         </div>
                     </div>
