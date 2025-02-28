@@ -4,14 +4,19 @@ import AppHeader from "./components/app-header";
 import {FloatButton, Layout } from "antd";
 import React from "react";
 import PlayerBar from "./views/player/player-bar";
-import {useAppDispatch} from "./store";
+import {useAppDispatch, useAppSelector} from "./store";
 import {fetchCurrentSongAction} from "./views/player/store/play";
 function App() {
   const { Content, Footer } = Layout;
   // 获取某一首歌
   const dispatch = useAppDispatch()
+  const {playSongList} = useAppSelector((state) => ({
+    playSongList: state.player.playSongList,
+  }))
   useEffect(() => {
-    dispatch(fetchCurrentSongAction(1365898499))
+    if(playSongList.length !== 0){
+      dispatch(fetchCurrentSongAction(playSongList[0].id))
+    }
   }, [dispatch]);
   return (
     <>

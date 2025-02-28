@@ -15,6 +15,7 @@ const Index = ({children,moreLink = ''}) => {
             <a style={{marginTop: "6px", marginLeft: "auto", fontSize: '12px', color: '#666666'}} onClick={jump}>
                 更多
             </a>
+            <a className="more-icon"></a>
         </div>
     )
 }

@@ -163,7 +163,94 @@
       }
     }
     .right{
-      margin-left: 300px;
+      margin-left: 200px;
+      position:relative;
+      .list{
+        background: url('https://s2.music.126.net/style/web2/img/frame/playbar.png?ff1184ff22d47c35ea07fde65fba1e0a') -44px -68px;
+        width:57px;
+        display: block;
+        height:25px;
+        cursor: pointer;
+      }
+      .list:hover{
+        background-position: -44px -98px;
+      }
     }
   }
+  .lyric{
+    background-color:rgba(22,22,22);
+    width:553px;
+    height:260px;
+    position:absolute;
+    top:-254px;
+    left:50%;
+    transform: translateX(-50%);
+    z-index:9999;
+    border-radius:5px 5px 0 0;
+    .header{
+      border-radius:5px 5px 0 0;
+      background-color: rgba(30,30,30);
+      width: 100%;
+      height: 40px;
+      .del{
+        background: url('https://s2.music.126.net/style/web2/img/frame/playlist.png?9b2cece0eeb2050bdf3dbe82fc08fb8c') -51px 0;
+        width:13px;
+        color:transparent;
+        height:16px;
+        margin-right: 20px;
+        cursor: pointer;
+        display: block;
+      }
+      .del:hover{
+         background-position: -51px -20px;
+      }
+    }
+    .lyric-content{
+      height: 220px;
+      overflow-y: auto;
+      .lyric-list{
+        .lyric-list-item{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          cursor: pointer;
+          .lyric-list-item-left{
+            display: flex;
+            height: 28px;
+            align-items: center;
+            .lyric-list-icon{
+              color:transparent;
+              margin-left: 10px;
+              margin-right: 7px;
+              background: url("https://s2.music.126.net/style/web2/img/frame/playlist.png?9b2cece0eeb2050bdf3dbe82fc08fb8c") -182px 0;
+              width:10px;
+              height:13px;
+            }
+
+          }
+          .lyric-list-item-right{
+            .ar{
+              width:80px;
+              margin-right: 10px;
+            }
+            .time{
+              width:45px;
+              margin-right: 30px;
+            }
+          }
+        }
+        .lyric-list-item:hover{
+          background-color: rgba(13,13,13);
+          .lyric-list-text{
+            color:#E2E2E2;
+          }
+        }
+      }
+    }
+  }
+  .lyric-list-text{
+    font-size: 12px;
+    color:#cccccc;
+  }
 }
+

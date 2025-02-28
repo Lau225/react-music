@@ -1,25 +1,29 @@
 import React, {useEffect, useRef, useState } from 'react'
 import './index.less'
-import {ConfigProvider, Image,Slider} from 'antd';
+import {ConfigProvider, Image,Slider,message} from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from "@/store";
-import {changeLyricIndex} from "../store/play";
+import {changeLyricIndex, fetchCurrentSongAction} from "../store/play";
 const Index = () => {
     const [isPlaying, setIsPlaying] = useState(true)
     const [progress, setProgress] = useState<number>(0)
     const [duration, setDuration] = useState<number>(0)
     const [current, setCurrent] = useState<string>('00:00')
     const [isSliding, setIsSliding] = useState(false)
+    const [listVisible, setListVisible] = useState(false)
     const navigate = useNavigate()
-    const {currentSong,songUrl,lyric,lyricIndex} = useAppSelector((state) => ({
+    const {currentSong,songUrl,lyric,lyricIndex,playSongList,playSongIndex} = useAppSelector((state) => ({
         currentSong:state.player.currentSong,
         songUrl:state.player.songUrl,
         lyric:state.player.lyric,
         lyricIndex:state.player.lyricIndex,
+        playSongList:state.player.playSongList,
+        playSongIndex:state.player.playSongIndex,
     }))
     const dispatch = useAppDispatch()
     useEffect(() => {
         setDuration(currentSong?.dt)
+        setIsPlaying(true)
     }, [currentSong]);
     /**
      * 处理播放暂停按钮点击
@@ -43,9 +47,49 @@ const Index = () => {
     const jump = () => {
         navigate('/discover/player')
     }
-    const handleChangeBtnClick = (isNext = true) => {
-        console.log('handleChangeBtnClick', isNext)
+    const handleChangeBtnClick = (isNext:boolean) => {
+        setIsPlaying(true)
+        setProgress(0)
+        setCurrent('00:00')
+        audioRef.current.currentTime = 0
+        audioRef.current.pause()
+        if(!isNext){
+            // 上一首
+            // 先判断是否有上一首歌曲
+            if(playSongIndex === 0){
+                dispatch(fetchCurrentSongAction(playSongList[0].id))
+            }else{
+                dispatch(fetchCurrentSongAction(playSongList[playSongIndex - 1].id))
+            }
+        }else{
+            // 下一首
+            // 先判断是否有下一首歌曲
+            if(playSongIndex === playSongList.length - 1){
+                dispatch(fetchCurrentSongAction(playSongList[0].id))
+            }else{
+                dispatch(fetchCurrentSongAction(playSongList[playSongIndex + 1].id))
+            }
+        }
     }
+
+    /**
+     * 处理音乐播放结束
+     */
+    const endPlay = () => {
+        setIsPlaying(true)
+        setProgress(0)
+        setCurrent('00:00')
+        if(playSongIndex === playSongList.length - 1){
+            dispatch(fetchCurrentSongAction(playSongList[0].id))
+        }else{
+            dispatch(fetchCurrentSongAction(playSongList[playSongIndex + 1].id))
+        }
+    }
+
+    const showList = () => {
+        setListVisible(!listVisible)
+    }
+
     /**
      * 处理音乐播放进度
      */
@@ -55,13 +99,6 @@ const Index = () => {
         if(!isSliding){
             setProgress(progress)
             setCurrent(getDuration(currentTime * 1000))
-            if(getDuration(currentTime * 1000) === getDuration(duration)){
-                setTimeout(() => {
-                    setIsPlaying(true)
-                    setProgress(0)
-                    setCurrent('00:00')
-                },1000)
-            }
         }
         let index = lyric.length - 1
         for(let i = 0; i < lyric.length; i++){
@@ -77,7 +114,14 @@ const Index = () => {
             return
         }
         dispatch(changeLyricIndex(index))
-        console.log(lyric[index].content)
+        showLyric(index)
+    }
+    const showLyric = (index:number) => {
+        return message.open({
+            content:lyric[index].content,
+            duration:0,
+            key:'lyric'
+        })
     }
     /**
      * 格式化时间
@@ -106,8 +150,53 @@ const Index = () => {
         setProgress(value)
         setIsSliding(false)
     }
+    const playList = (id:number) => {
+        dispatch(fetchCurrentSongAction(id))
+    }
     return(
         <div className="player-bar">
+            {listVisible &&
+                <div className="lyric">
+                    <div className="header">
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        height: '100%'
+                    }}>
+                        <span style={{
+                            color: '#E2E2E2',
+                            fontSize: '14px',
+                            fontWeight: 'bold',
+                            marginLeft: '30px'
+                        }}>播放列表({playSongList.length})</span>
+                        <a className="del">删除</a>
+                    </div>
+                </div>
+                    <div className="lyric-content">
+                        <ul className="lyric-list">
+                            {
+                                playSongList.map((item,index) => {
+                                    return (
+                                        <li className="lyric-list-item" key={item.id} onClick={() => playList(item.id)}>
+                                            <div className="lyric-list-item-left">
+                                                <a className="lyric-list-icon" style={{visibility: index === playSongIndex ? 'visible' : 'hidden'}}></a>
+                                                <span className="lyric-list-text">{item.name}</span>
+                                            </div>
+                                            <div className="lyric-list-item-right">
+                                                <span className="ar lyric-list-text">{item.ar?.[0]?.name || '未知歌手'}</span>
+                                                <span className="time lyric-list-text">
+                                                    {item.dt ? getDuration(item.dt) : '00:00'}
+                                                </span>
+                                            </div>
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
             <div className="content">
                 <div className="left">
                     <a className="prev" onClick={() => handleChangeBtnClick(false)}></a>
@@ -116,9 +205,9 @@ const Index = () => {
                             (<a className="play" onClick={handleClick}></a>) :
                             (<a className="pause" onClick={handleClick}></a>)
                     }
-                    <a className="next" onClick={() => handleChangeBtnClick()}></a>
+                    <a className="next" onClick={() => handleChangeBtnClick(true)}></a>
                 </div>
-                <audio ref={audioRef} src={songUrl} onTimeUpdate={handleTimeUpdate}></audio>
+                <audio ref={audioRef} src={songUrl} onEnded={() => endPlay()} onTimeUpdate={handleTimeUpdate}></audio>
                 <div className="center">
                     <Image onClick={jump} style={{ cursor: 'pointer',borderRadius: '5px' }} preview={false} src={ currentSong?.al?.picUrl + '?param=34y34'} />
                     <div className="base">
@@ -164,7 +253,10 @@ const Index = () => {
                         </div>
                     </div>
                 </div>
-                <div className="right"></div>
+                <div className="right">
+                    <a onClick={showList} className="list"></a>
+                    <span style={{ position: 'absolute', right: '16px', top: '7px', fontSize: '12px', color: '#666666' }}>{playSongList.length}</span>
+                </div>
             </div>
         </div>
     )
